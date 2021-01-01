@@ -1,0 +1,51 @@
+import java.io.File;
+import java.io.IOException;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+
+            GreyScale greyOb=new GreyScale();
+            Negative negativeOb=new Negative();
+            Sepia sepiaOb=new Sepia();
+            Mirror mirrorOb=new Mirror();
+            HuffmanEncoder3 Ob=new HuffmanEncoder3();
+            BufferedImage image = null;
+            File file = null;
+            try {
+                file = new File("/Users/vhlong//testImage/test4.jpg");
+                image = ImageIO.read(file);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        System.out.println("Nhập 1 để chuyển ảnh thành ảnh xám\n" +
+                "Nhập 2 để chuyển ảnh thành dạng âm bản\n" +
+                "Nhập 3 để chuyển ảnh thành dạng Sepia\n" +
+                "Nhập 4 để chuyển ảnh thành dạng Mirror\n"+
+                "Nhập 5 để nén,giải nén \n");
+        String s = in.nextLine();
+        int temp=Integer.parseInt(s);
+
+
+        if(temp==1){
+            greyOb.transGrey(image);
+        }else if(temp==2){
+            negativeOb.transNeg(image);
+        }else if(temp==3){
+            sepiaOb.transSepia(image);
+        }else if(temp==4){
+            mirrorOb.transMirror(image);
+        }else if(temp==5){
+            Ob.comNdecom(file);
+        }else{
+            System.out.println("Dữ liệu nhập ko hợp lệ");
+        }
+
+
+
+    }
+}
+

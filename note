@@ -1,0 +1,12 @@
+1.Hiểu cách dịch bit để lấy từng thành phần argb của 1 ảnh
+2.Muốn chuyển thành dạng xám thì rgb bằng nhau còn a giữ nguyên
+3.Ảnh âm bản thì a giữ nguyên,rgb=255-rgb
+4.Sepia image là dạng ảnh nâu cổ,a giữ nguyên rgb tính theo công thức
+5.Mirror image thì set ngược lại từ trái qua phải
+
+Note ve cach dich bit:
+<< la dich trai
+x=00111 sau khi x=x<<1 se tro thanh 01110
+
+>> la dich phai
+x=11000 sau khi x=x>>1 se tro thanh 01100
