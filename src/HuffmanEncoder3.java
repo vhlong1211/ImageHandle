@@ -5,7 +5,7 @@ import java.util.*;
 
 
 public class HuffmanEncoder3 {
-    public  String data="";
+    public  static String data="";
     private static final int ALPHABET_SIZE = 256;
     public HuffmanEncodedResult compress( ArrayList<Integer> data){
          int[] freq = buildFrequencyTable(data);
@@ -31,15 +31,16 @@ public class HuffmanEncoder3 {
         lookupTableHelper(root, "", lookupTable);
         return lookupTable;
     }
-    static HuffmanEncoder3 tempHe3=new HuffmanEncoder3();
+
     private static void lookupTableHelper(Node root, String s, Map<Integer, String> lookupTable) {
+         HuffmanEncoder3 tempHe3=new HuffmanEncoder3();
         if(!root.isLeaf()){
             lookupTableHelper(root.leftChild,s+'0',lookupTable);
             lookupTableHelper(root.rightChild,s+'1',lookupTable);
         }
         else{
             lookupTable.put(root.character,s);
-            System.out.println(1);
+
             tempHe3.data=tempHe3.data+root.character+"-"+s+"\n";
         }
     }
@@ -71,43 +72,7 @@ public class HuffmanEncoder3 {
         }
         return freq;
     }
-//    public static String encodeImage(byte[] imageByteArray){
-//        return Base64.getEncoder().encodeToString(imageByteArray);
-//    }
-    public String decompress(final HuffmanEncodedResult result){
-         StringBuilder resultBuilder = new StringBuilder();
-        Node current = result.getRoot();
-        int i=0;int count=0;
-        while(i<result.getEncodedData().length()){
-            while(!current.isLeaf()){
-                char bit = result.getEncodedData().charAt(i);
-                if(bit == '1'){
-                    current = current.rightChild;
-                }
-                else if(bit == '0'){
-                    current = current.leftChild;
-                }
-                else{
-                    throw new IllegalArgumentException("Bit in message is invalid "+ bit);
-                }
-                i++;
-            }
 
-                String temp = Integer.toBinaryString(current.character);
-                while(temp.length() !=8){
-                    temp = "0"+temp;
-                }
-                resultBuilder.append(temp);
-                count++;
-                //System.out.println(temp);
-
-
-
-            current = result.getRoot();
-        }
-        //System.out.println(count);
-        return resultBuilder.toString();
-    }
 
     static class Node implements Comparable<Node>{
         private  int character;
@@ -215,17 +180,61 @@ public class HuffmanEncoder3 {
         }
         //ArrayList<Node2> arrLast=new ArrayList<Node2>();
         HashMap<String,String> hmLast=new HashMap<String,String>();
-        StringTokenizer st=new StringTokenizer(content," -");
-        String tempa="";String tempb="";
-        while(tempa!="@"){
-            tempa=st.nextToken();
-            tempb=st.nextToken();
-            hmLast.put(tempa,tempb);
-
-        }
+//        StringTokenizer st=new StringTokenizer(content," -");
+//        String tempa="";
+//        String tempb="";
+//        while(st.hasMoreTokens()){
+//            tempa=st.nextToken();
+//            //tempb=st.nextToken();
+//            hmLast.put(tempa,tempb);
+//            if(tempa=="@"){
+//                break;
+//            }
+//        }
+        //System.out.println(hmLast);
         String[] str_array = content.split("@");
-        //String stringa = str_array[0];
+        String stringa = str_array[0];
         String stringb = str_array[1];
-        System.out.println(stringb.length());
+        stringb=stringb.substring(1);
+        String[] arra=stringa.split("\n");
+        for(int i=0;i<arra.length;i++){
+            int iend = arra[i].indexOf("-");
+            hmLast.put(arra[i].substring(iend+1),arra[i].substring(0,iend));
+        }
+        System.out.println(hmLast);
+        //System.out.println(stringa);
+        String tempoStr="";
+        StringBuilder resultBuilder = new StringBuilder();
+        for (int i = 0; i < stringb.length(); i++){
+            char c = stringb.charAt(i);
+            tempoStr+=Character.toString(c);
+
+            //System.out.println(tempoStr);
+
+            if(hmLast.containsKey(tempoStr)){
+                String temp = Integer.toBinaryString(Integer.parseInt(hmLast.get(tempoStr)));
+                while(temp.length() !=8){
+                    temp = "0"+temp;
+                }
+                resultBuilder.append(temp);
+//                count++;
+
+
+                tempoStr="";
+            }
+        }
+        rawDa=resultBuilder.toString();
+        try{
+            File f = new File("/Users/vhlong/University/Kì 1 năm 4/Đa phương tiện/Encoded/raw.txt");
+            FileWriter fw = new FileWriter(f);
+            fw.write(rawDa);
+            fw.close();
+        }catch(Exception err){
+            err.printStackTrace();
+        }
+        System.out.println(rawDa.length());
+
+        System.out.println(tempoStr);
+
     }
 }

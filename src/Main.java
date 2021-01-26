@@ -16,7 +16,7 @@ public class Main {
             BufferedImage image = null;
             File file = null;
             try {
-                file = new File("/Users/vhlong/University/Kì 1 năm 4/Đa phương tiện/testImage/test13.png");
+                file = new File("/Users/vhlong/University/Kì 1 năm 4/Đa phương tiện/testImage/test14.png");
                 image = ImageIO.read(file);
             } catch (IOException e) {
                 System.out.println(e);
