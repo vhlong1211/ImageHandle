@@ -16,7 +16,7 @@ public class Main {
             BufferedImage image = null;
             File file = null;
             try {
-                file = new File("/Users/vhlong//testImage/test4.jpg");
+                file = new File("/Users/vhlong/University/Kì 1 năm 4/Đa phương tiện/testImage/test13.png");
                 image = ImageIO.read(file);
             } catch (IOException e) {
                 System.out.println(e);
@@ -25,7 +25,8 @@ public class Main {
                 "Nhập 2 để chuyển ảnh thành dạng âm bản\n" +
                 "Nhập 3 để chuyển ảnh thành dạng Sepia\n" +
                 "Nhập 4 để chuyển ảnh thành dạng Mirror\n"+
-                "Nhập 5 để nén,giải nén \n");
+                "Nhập 5 để nén\n"+
+                "Nhập 6 để giải nén\n");
         String s = in.nextLine();
         int temp=Integer.parseInt(s);
 
@@ -39,7 +40,9 @@ public class Main {
         }else if(temp==4){
             mirrorOb.transMirror(image);
         }else if(temp==5){
-            Ob.comNdecom(file);
+            Ob.ComP(file);
+        }else if(temp==6){
+            Ob.DeComP();
         }else{
             System.out.println("Dữ liệu nhập ko hợp lệ");
         }

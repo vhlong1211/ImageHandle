@@ -1,11 +1,11 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 
 public class HuffmanEncoder3 {
+    public  String data="";
     private static final int ALPHABET_SIZE = 256;
     public HuffmanEncodedResult compress( ArrayList<Integer> data){
          int[] freq = buildFrequencyTable(data);
@@ -31,7 +31,7 @@ public class HuffmanEncoder3 {
         lookupTableHelper(root, "", lookupTable);
         return lookupTable;
     }
-
+    static HuffmanEncoder3 tempHe3=new HuffmanEncoder3();
     private static void lookupTableHelper(Node root, String s, Map<Integer, String> lookupTable) {
         if(!root.isLeaf()){
             lookupTableHelper(root.leftChild,s+'0',lookupTable);
@@ -39,6 +39,8 @@ public class HuffmanEncoder3 {
         }
         else{
             lookupTable.put(root.character,s);
+            System.out.println(1);
+            tempHe3.data=tempHe3.data+root.character+"-"+s+"\n";
         }
     }
 
@@ -69,9 +71,9 @@ public class HuffmanEncoder3 {
         }
         return freq;
     }
-    public static String encodeImage(byte[] imageByteArray){
-        return Base64.getEncoder().encodeToString(imageByteArray);
-    }
+//    public static String encodeImage(byte[] imageByteArray){
+//        return Base64.getEncoder().encodeToString(imageByteArray);
+//    }
     public String decompress(final HuffmanEncodedResult result){
          StringBuilder resultBuilder = new StringBuilder();
         Node current = result.getRoot();
@@ -106,6 +108,7 @@ public class HuffmanEncoder3 {
         //System.out.println(count);
         return resultBuilder.toString();
     }
+
     static class Node implements Comparable<Node>{
         private  int character;
         private  int frequency;
@@ -146,7 +149,7 @@ public class HuffmanEncoder3 {
         }
     }
 
-    public void comNdecom(File file) {
+    public void ComP(File file) {
         //File file = new File("/Users/vhlong/testImage/test4.jpg");
         try {
             FileInputStream imageInFile = new FileInputStream(file);
@@ -163,13 +166,26 @@ public class HuffmanEncoder3 {
             System.out.println("Raw bytes: " +imageDataString.size()+" bytes");
              HuffmanEncoder3 encoder = new HuffmanEncoder3();
              HuffmanEncodedResult result = encoder.compress(imageDataString);
+             HuffmanEncoder3 tempHe3=new HuffmanEncoder3();
+             tempHe3.data=tempHe3.data+"@\n";
+             tempHe3.data=tempHe3.data+result.encodedData;
             int a = result.encodedData.length();
-            int b = encoder.decompress(result).length();
+//            int b = encoder.decompress(result).length();
+            int b =imageData.length*8;
+            try{
+                File f = new File("/Users/vhlong/University/Kì 1 năm 4/Đa phương tiện/Encoded/output.txt");
+                FileWriter fw = new FileWriter(f);
+                fw.write(tempHe3.data);
+                fw.close();
+            }catch(Exception err){
+                err.printStackTrace();
+            }
+
 //            System.out.println(imageDataString);
 //            System.out.println(result.encodedData);
             //System.out.println(encoder.decompress(result));
             System.out.println("Encoded message: " + result.encodedData.length()+ " bits");
-            System.out.println("Decoded message: " + encoder.decompress(result).length()+ " bits");
+            System.out.println("Decoded message: " + b+ " bits");
             System.out.println("Percentage compression: "+ (100.00-(float)a/b*100));
         } catch (FileNotFoundException e) {
             System.out.println("Image not found" + e);
@@ -179,5 +195,37 @@ public class HuffmanEncoder3 {
 
 
 
+    }
+//    static class Node2{
+//        String character;
+//        String code;
+//
+//        public Node2(String character, String code) {
+//            this.character = character;
+//            this.code = code;
+//        }
+//    }
+    public void DeComP(){
+        String content = "";
+        String rawDa="";
+        try {
+            content = new String(Files.readAllBytes(Paths.get("/Users/vhlong/University/Kì 1 năm 4/Đa phương tiện/Encoded/output.txt")));
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
+        //ArrayList<Node2> arrLast=new ArrayList<Node2>();
+        HashMap<String,String> hmLast=new HashMap<String,String>();
+        StringTokenizer st=new StringTokenizer(content," -");
+        String tempa="";String tempb="";
+        while(tempa!="@"){
+            tempa=st.nextToken();
+            tempb=st.nextToken();
+            hmLast.put(tempa,tempb);
+
+        }
+        String[] str_array = content.split("@");
+        //String stringa = str_array[0];
+        String stringb = str_array[1];
+        System.out.println(stringb.length());
     }
 }
